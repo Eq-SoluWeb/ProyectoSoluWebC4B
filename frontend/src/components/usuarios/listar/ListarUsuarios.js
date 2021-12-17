@@ -17,8 +17,7 @@ const ListarUsuarios = () => {
         <>
             {loading && <p>Cargando ...</p>}
             {error && <p>Se ha producido un error</p>}
-            {
-                data &&
+            {data &&
                 <table className="table table-hover">
                     <thead>
                         <tr>

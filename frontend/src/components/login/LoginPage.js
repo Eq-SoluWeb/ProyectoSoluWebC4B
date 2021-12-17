@@ -1,56 +1,88 @@
-import React from 'react'
+import { useLazyQuery } from '@apollo/client';
+import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
+import LOGIN_USUARIO from '../../Apollo/gql/loginUsuario'
+import { useForm } from 'react-hook-form'
+import useAuth from '../../hooks/useAuth'
 import './login.css';
 
-const LoginPage = () => {    
+const LoginPage = () => {
 
+    const auth = useAuth();
+    const { register, handleSubmit, formState: { errors } } = useForm();
     const navigate = useNavigate();
 
-    const handleLogin = (e) => {
+    const [loginUsuario, { data, loading, error }] = useLazyQuery(LOGIN_USUARIO);
 
-        e.preventDefault();
-        // agregar una nueva ruta al stack de navegacion
-        // navigate('/usuarios')
+    useEffect(() => {
+        if (data) {
+            auth.setToken(data.Login.token);
+            auth.setUser({ usuario: data.Login.usuario, rol: data.Login.rol });
+            navigate('/usuarios', {
+                replace: true
+            })
+        }
+    }, [data, navigate, auth]);
 
-        // reemplazar el historial para no poder regresar a la ruta previa
-        navigate('/usuarios', {
-            replace: true
-        })
-        console.log('login');
+    const handleLogin = (args) => {
+        const { email, password } = args;        
+        loginUsuario({ variables: { email, password } });
     }
 
     return (
         <div className="login">
-            <div className="row justify-content-center align-items-center minh-100">
+            <div className="row">
                 <div className="col-md-6 login-form-1 login-container">
-                    <h3>Login</h3>
-                    <form onSubmit={handleLogin}>
+                    <h3>Ingreso</h3>
+                    <form onSubmit={handleSubmit(handleLogin)}>
                         <div className="form-group">
                             <input
                                 type="text"
                                 className="form-control"
                                 placeholder="Correo"
-                                name="Email"
+                                name="email"
+                                {...register("email", { required: true, pattern: /^\S+@\S+$/i })}
                             />
                         </div>
+
+                        {errors.email?.type === "required" && <div className="alert alert-danger mt-2" role="alert">
+                            el correo es obligatorio
+                        </div>}
+
+                        {errors.email?.type === "pattern" && <div className="alert alert-danger mt-2" role="alert">
+                            el correo no tiene el formto correcto
+                        </div>}
+
+
                         <div className="form-group mt-2">
                             <input
                                 type="password"
                                 className="form-control"
                                 placeholder="Contraseña"
-                                name="Password"
+                                name="password"
+                                {...register("password", { required: true })}
                             />
                         </div>
-                        <div className="form-group mt-4">
-                            <center>
-                                <input
-                                    type="submit"
-                                    className="btnSubmit"
-                                    value="Enviar"
-                                />
-                            </center>
-                        </div>                        
+
+                        {errors.password && <div className="alert alert-danger mt-2" role="alert">
+                            el password es obligatorio
+                        </div>}
+
+                        <div className="form-group mt-3">
+                            {!loading && <input
+                                type="submit"
+                                className="btnSubmit"
+                                value="Login"
+                            />}
+                            {loading && <button className="btnSubmit" type="button" disabled>
+                                <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                Loading...
+                            </button>}
+                        </div>
                     </form>
+                    {error && <div className="alert alert-danger" role="alert">
+                        Usuario o contraseña incorrectos
+                    </div>}
                 </div>
             </div>
         </div>

@@ -1,23 +1,45 @@
 import { useMutation } from '@apollo/client';
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form';
+import {useNavigate} from 'react-router-dom';
+import GET_USUARIOS from '../../../Apollo/gql/getUsuarios'
 import SET_USUARIO from '../../../Apollo/gql/setUsuario';
 
 import '../usuarios.css';
 
 const CrearUsuario = () => {
 
+    const navigate = useNavigate();
+
     const { register, handleSubmit } = useForm();
 
-    const [crearUsuario] = useMutation(SET_USUARIO);
+    const [crearUsuario, {data, loading, error}] = useMutation(SET_USUARIO, {
+        refetchQueries: [{
+            query: GET_USUARIOS
+        }]
+    });
 
-    const handleCreate = (data) => {
-        console.log('crear');
-        console.log(data);
+    useEffect(() => {
+        if (data) {
+            console.log('data', data);
+            
+            navigate('/usuarios', {
+                replace: true
+            })
+        }
+    }, [data])
 
-        const { nombreCompleto,identificacion, email, password, rol } = data;
+    const handleCreate = (dato) => {
+        
+        const { nombreCompleto,identificacion, email, password, rol } = dato;
 
         crearUsuario({ variables: { nombreCompleto, identificacion, email, password, rol } })
+
+        /*if (data) {
+            navigate('/usuarios', {
+                replace: true
+            })
+        }*/
 
     }
 

@@ -18,18 +18,7 @@ const UsuariosPage = () => {
                     <div className="col-lg-12">
                         <div className="card card-primary card-outline">
                             <div className="card-header flex">
-                                <h5 className="m-0">Usuarios</h5>
-                                {
-                                    action !== undefined ?
-
-                                        <NavLink className="btn btn-danger mr-0" to={`/usuarios`}>
-                                            Cancelar
-                                        </NavLink>
-                                        :                
-                                        <NavLink className="btn btn-primary mr-0" to={`/usuarios/crear`}>
-                                            Crear Usuario
-                                        </NavLink>
-                                }
+                                <h5 className="m-0">Usuarios</h5>                                
                             </div>
                             <div className="card-body">
                                 {action === '' || action === undefined ? <ListarUsuarios /> : (action === 'crear') ? <CrearUsuario /> : <EditarUsuario />}

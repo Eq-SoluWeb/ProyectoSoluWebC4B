@@ -4,7 +4,7 @@ const UsuarioSchema = Schema({
     "identificacion" : { type: String, require: true },
     "nombreCompleto" : { type: String, required: true },
     "password" : { type: String, required: true },
-     "estado" : { type: String, required: false, default: "PENDIENTE" },
-    "rol" : { type: String, required: true },
+    "estado" : { type: String, required: false, default: "PENDIENTE" },
+    "rol" :  { type: String, required: false, default: "" },
 })
 module.exports = model("Usuario", UsuarioSchema);

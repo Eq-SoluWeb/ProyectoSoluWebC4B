@@ -12,7 +12,7 @@ const typeDefs = `
         unaInscripcion(id:ID): Inscripcion,
         Avances: [Avance],
         unAvance(id:ID): Avance,
-        Login(email:String!,password:String!):String,
+        Login(email:String!,password:String!):Auth,
         UsuariosEstudiantes: [Usuario],
         SolicitudesPendientes:[Solicitud],
         MisProyectos(idUsuario:ID!):[Proyecto],
@@ -35,6 +35,12 @@ const typeDefs = `
         ActualizarObservacionAvance(id : ID!, input : AvanceInputObservacion): Avance
         AgregarSolicitud(solicitud:SolicitudInput):Solicitud
         
+    } 
+    
+    type Auth {
+        token: String,
+        usuario: String,
+        rol: String,
     }
 
     type Usuario {
