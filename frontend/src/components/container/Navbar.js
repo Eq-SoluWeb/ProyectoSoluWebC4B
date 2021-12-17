@@ -1,13 +1,24 @@
 import React from 'react'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
+import useAuth from '../../hooks/useAuth';
 
 const Navbar = () => {
 
-    const perfil = "inicio";
+    const auth = useAuth();
+    const perfil = "";
+    if (auth.isLogged()) {
+        let perfil = auth.user.perfil;
+    }
+
+
+    console.log(perfil);
+    console.log(auth);
 
     const navigate = useNavigate();
 
     const handleLogout = () => {
+
+        auth.logout();
 
         navigate('/', {
             replace: true
@@ -26,7 +37,7 @@ const Navbar = () => {
             </Link>
 
             {
-                perfil === 'estudiante' && <div className="navbar-collapse">
+                perfil === 'Estudiante' && <div className="navbar-collapse">
                     <NavLink
                         className={({ isActive }) => 'nav-item nav-link ' + (isActive ? 'active' : '')}
                         to="/usuarios"
@@ -37,7 +48,7 @@ const Navbar = () => {
             }
 
             {
-                perfil === 'lider' && <div className="navbar-collapse">
+                perfil === 'Lider' && <div className="navbar-collapse">
                     <NavLink
                         className={({ isActive }) => 'nav-item nav-link ' + (isActive ? 'active' : '')}
                         to="/usuarios"
@@ -54,7 +65,8 @@ const Navbar = () => {
             }
 
             {
-                perfil === "inicio" && <div className="navbar-collapse">
+                perfil === "" && 
+                <div className="navbar-collapse">
                     <NavLink
                         className={({ isActive }) => 'nav-item nav-link ' + (isActive ? 'active' : '')}
                         to="/registro"
@@ -69,19 +81,22 @@ const Navbar = () => {
                     </NavLink>
                 </div>
             }
-            
-            <div className="navbar-collapse collapse w-40 order-3 dual-collapse2 d-flex justify-content-end">
-                <ul className="navbar-nav ml-auto">
+            {
+                auth.isLogged() &&
 
-                    <button
-                        className="nav-item nav-link btn"
-                        onClick={handleLogout}
-                    >
-                        Logout
-                    </button>
+                    <div className="navbar-collapse collapse w-40 order-3 dual-collapse2 d-flex justify-content-end">
+                        <ul className="navbar-nav ml-auto">
 
-                </ul>
-            </div>
+                            <button
+                                className="nav-item nav-link btn"
+                                onClick={handleLogout}
+                            >
+                                Logout
+                            </button>
+
+                        </ul>
+                    </div>                
+            }
         </nav>
     )
 }
