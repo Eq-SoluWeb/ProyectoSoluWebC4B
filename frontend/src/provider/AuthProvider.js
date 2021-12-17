@@ -16,7 +16,7 @@ const AuthProvider = ({children}) => {
 
     useEffect(() => {
         try {
-            localStorage.setItem("token", JSON.stringify(token));
+            localStorage.setItem("token", token);
             localStorage.setItem("user", JSON.stringify(user));
         } catch (error) {
             localStorage.removeItem("token");
@@ -31,7 +31,7 @@ const AuthProvider = ({children}) => {
             setToken(token);
         },
         setUser(us) {
-            setUser(user);
+            setUser(us);
         },
         logout() {
             setToken(null);

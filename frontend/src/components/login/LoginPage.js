@@ -16,17 +16,13 @@ const LoginPage = () => {
 
     useEffect(() => {
         if (data) {
-            console.log('data', data);
             auth.setToken(data.Login.token);
             auth.setUser({ usuario: data.Login.usuario, rol: data.Login.rol });
-            console.log(auth);
             navigate('/usuarios', {
                 replace: true
             })
         }
     }, [data, navigate, auth]);
-
-
 
     const handleLogin = (args) => {
         const { email, password } = args;        
