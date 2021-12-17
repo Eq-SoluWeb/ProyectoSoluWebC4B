@@ -9,19 +9,15 @@ import { generarJwt } from "../helpers/jwt";
 
 export const resolvers = {
     Query: {
-        Usuarios(_,args,context) {
-            //if(context.user.auth){
+        Usuarios(_,args,{user}) {
+            //if(user.auth){
                return Usuario.find();
             //}else {
-
-               // return true
-
-            //    return true
-
+            //   throw new Error("No Autenticado");
             //}
         },
-        unUsuario(parents, args) {
-            return Usuario.findById(args.id)
+        async unUsuario(_, {id}) {
+            return await Usuario.findById(id);
         },
         Proyectos() {
             return Proyecto.find().populate('lider','nombreCompleto');
@@ -45,23 +41,31 @@ export const resolvers = {
         unAvance(parents, args) {
             return Avance.findById(args.id)
         },
+        
         async Login(_,{email,password}){
            
-           const  usuario=await Usuario.findOne({email})
+           const  usuario = await Usuario.findOne({email})
             if(!usuario){
-                return  false
+                throw new Error("Usuario o contraseña incorrectos");
             }
-             const validarPassword=bcrypt.compareSync(password,usuario.password);
-            if(!validarPassword){
-                 return false
+             const validarPassword = bcrypt.compareSync(password, usuario.password);
+            
+             if(!validarPassword){
+                throw new Error("Usuario o contraseña incorrectos");
             }else {
-                const token=await generarJwt(usuario.id,usuario.email)
-                return   token
+                const token=await generarJwt(usuario.id, usuario.email)
+                return   {
+                    token,
+                    usuario: `${usuario.nombreCompleto}`,
+                    rol: `${usuario.rol}`
+                };
             }
         },
+
        async UsuariosEstudiantes(){
            return await Usuario.find({rol:'Estudiante'});
        },
+
        async MisProyectos(_,{usuario}){
         return await Proyecto.find({lider:usuario}).populate('lider',"nombreCompleto");;
     }
@@ -71,19 +75,15 @@ export const resolvers = {
     Mutation: {
         async AgregarUsuario(_, { usuario }) {
             const salt=bcrypt.genSaltSync();
-            const nUsuario = new Usuario({
-                
-                email: usuario.email,
-                identificacion: usuario.identificacion,
-                nombreCompleto: usuario.nombreCompleto,
-                password: bcrypt.hashSync(usuario.password,salt),
-                rol: usuario.rol,
-            });
+            const nUsuario = new Usuario(usuario);
+            nUsuario.password = bcrypt.hashSync(usuario.password, salt);
             return await nUsuario.save();
         },
+
         async ActualizarEstadoUsuario(_, { id, input }) {
             return await Usuario.findByIdAndUpdate(id, input, { new: true });
         },
+
         async ActualizarDatosUsuario(_, { id, input }) {
             return await Usuario.findByIdAndUpdate(id, input, { new: true });
         },
@@ -102,12 +102,15 @@ export const resolvers = {
             });
             return await nProyecto.save();
         },
+
         async ActualizarEstadoProyecto(_, { id, input }) {
             return await Proyecto.findByIdAndUpdate(id, input, { new: true });
         },
+
         async ActualizarFaseProyecto(_, { id, input }) {
             return await Proyecto.findByIdAndUpdate(id, input, { new: true });
         },
+
         async ActualizarDatosProyecto(_, { id, input }) {
             return await Proyecto.findByIdAndUpdate(id, input, { new: true });
         },
@@ -121,9 +124,11 @@ export const resolvers = {
             });
             return await nAvance.save();
         },
+
         async ActualizarDatosAvance(_, { id, input }) {
             return await Avance.findByIdAndUpdate(id, input, { new: true });
         },
+
         async ActualizarObservacionAvance(_, { id, input }) {
             return await Avance.findByIdAndUpdate(id, input, { new: true });
         },
@@ -138,9 +143,11 @@ export const resolvers = {
             });
             return await nInscripcion.save();
         },
+
         async ActualizarEstadoInscripcion(_, { id, input }) {
             return await Inscripcion.findByIdAndUpdate(id, input, { new: true });
         },
+
         async AgregarSolicitud(_,{args}) {
             const nSolicitud= new Solicitud({
                 proyecto:args.proyecto,

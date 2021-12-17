@@ -73,10 +73,6 @@ const Navbar = () => {
             <div className="navbar-collapse collapse w-40 order-3 dual-collapse2 d-flex justify-content-end">
                 <ul className="navbar-nav ml-auto">
 
-                    <span className='nav-item nav-link text-info'>
-                        SoluWeb
-                    </span>
-
                     <button
                         className="nav-item nav-link btn"
                         onClick={handleLogout}
