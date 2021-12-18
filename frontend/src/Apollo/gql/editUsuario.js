@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client'
 
 const EDITAR_USUARIO = gql`
-        mutation datosUsuario($id:ID){
+        mutation {
             ActualizarDatosUsuario(id:$id,
                 input:{
                     nombreCompleto: $nombreCompleto,
@@ -14,6 +14,8 @@ const EDITAR_USUARIO = gql`
                 nombreCompleto
                 identificacion
                 email
+                estado
+                rol
             }               
         }
 

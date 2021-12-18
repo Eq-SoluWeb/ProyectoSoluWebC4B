@@ -1,14 +1,11 @@
 import { gql } from '@apollo/client'
 
 const GET_UN_USUARIO = gql`
-        query  UnUsuario($id:ID){            
-            unUsuario(id:$id) 
-            {
-                id
+        query  UnUsuario($id:ID!){            
+            unUsuario(id:$id) {
                 nombreCompleto
                 identificacion
-                email
-            
+                email            
             }               
         }
     `;

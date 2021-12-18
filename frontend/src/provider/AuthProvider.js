@@ -13,42 +13,31 @@ const AuthProvider = ({children}) => {
     const [user, setUser] = useState(
         JSON.parse(localStorage.getItem("user")) || null
     );
-    const [rol, setRol] = useState(
-        JSON.parse(localStorage.getItem("rol")) || null
-    );
-
+    
     useEffect(() => {
         try {
             localStorage.setItem("token", JSON.stringify(token));
             localStorage.setItem("user", JSON.stringify(user));
-            localStorage.setItem("rol", JSON.stringify(rol));
         } catch (error) {
             localStorage.removeItem("token");
             localStorage.removeItem("user");
-            localStorage.removeItem("rol");
         }
-    }, [user, token, rol]);
+    }, [user, token]);
 
     const contextValue = {
         user,
         token,
-        rol,
         setToken(token) {
             setToken(token);
         },
         setUser(us) {
             setUser(us);
         },
-        setRol(rl) {
-            setRol(rl);
-        },
         logout() {
             setToken(null);
             setUser(null);
-            setRol(null);
             localStorage.removeItem("token");
             localStorage.removeItem("user");
-            localStorage.removeItem("rol");
         },
         isLogged() {
             return !!user;

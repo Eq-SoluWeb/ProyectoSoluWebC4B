@@ -21,7 +21,7 @@ const UsuariosPage = () => {
                                 <h5 className="m-0">Usuarios</h5>                                
                             </div>
                             <div className="card-body">
-                                {action === '' || action === undefined ? <ListarUsuarios /> : (action === 'crear') ? <CrearUsuario /> : <EditarUsuario />}
+                                {action === '' || action === undefined ? <ListarUsuarios /> : (action === 'crear') ? <CrearUsuario /> : <EditarUsuario userid={action} />}
                             </div>
                         </div>
                     </div>

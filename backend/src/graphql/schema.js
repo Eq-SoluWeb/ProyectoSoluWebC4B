@@ -4,7 +4,7 @@ import { resolvers } from "./resolvers";
 const typeDefs = `
     type Query {
         Usuarios: [Usuario],
-        unUsuario(id:ID): Usuario,
+        unUsuario(id:ID!): Usuario,
         Proyectos: [Proyecto],
         unProyecto(id:ID): Proyecto,
         avanceProyecto(id:ID):Avance,
@@ -23,7 +23,7 @@ const typeDefs = `
     type Mutation {
         AgregarUsuario(usuario : UsuarioInput): Usuario
         ActualizarEstadoUsuario(id : ID!, input : UsuarioInputEstado): Usuario
-        ActualizarDatosUsuario(id : ID, input : UsuarioInputDatos): Usuario
+        ActualizarDatosUsuario(id : ID!, input : UsuarioInputDatos): Usuario
         AgregarProyecto(proyecto : ProyectoInput): Proyecto
         ActualizarEstadoProyecto(id : ID!, input : ProyectoInputEstado): Proyecto
         ActualizarFaseProyecto(id : ID!, input : ProyectoInputFase): Proyecto
@@ -77,13 +77,12 @@ const typeDefs = `
         estado: String,
     }
 
-    input UsuarioInputDatos {
-     
-        email: String,
-        identificacion: String,
-        nombreCompleto: String,
-        
+    input UsuarioInputDatos { 
+        nombreCompleto: String, 
+        identificacion: String,   
+        email: String,                 
     }
+
     type Avance {
         id: ID,
         idProyecto: String,
