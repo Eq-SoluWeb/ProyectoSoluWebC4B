@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link, NavLink, useNavigate } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import useAuth from '../../hooks/useAuth';
 
 const Navbar = () => {
@@ -9,7 +9,6 @@ const Navbar = () => {
     if (auth.isLogged()) {
         let perfil = auth.user.perfil;
     }
-
 
     console.log(perfil);
     console.log(auth);
@@ -26,18 +25,20 @@ const Navbar = () => {
 
     }
 
+ 
+
     return (
         <nav className="navbar navbar-expand-sm navbar-dark bg-dark">
 
-            <Link
+            <h1
                 className="navbar-brand"
-                to="/"
+                
             >
                 Gestor de Proyectos
-            </Link>
+            </h1>
 
-            {
-                perfil === 'Estudiante' && <div className="navbar-collapse">
+           
+                <div className="navbar-collapse">
                     <NavLink
                         className={({ isActive }) => 'nav-item nav-link ' + (isActive ? 'active' : '')}
                         to="/usuarios"
@@ -45,10 +46,8 @@ const Navbar = () => {
                         Usuarios
                     </NavLink>
                 </div>
-            }
-
-            {
-                perfil === 'Lider' && <div className="navbar-collapse">
+         
+                 <div className="navbar-collapse">
                     <NavLink
                         className={({ isActive }) => 'nav-item nav-link ' + (isActive ? 'active' : '')}
                         to="/usuarios"
@@ -62,10 +61,8 @@ const Navbar = () => {
                         Proyectos
                     </NavLink>
                 </div>
-            }
-
-            {
-                perfil === "" && 
+          
+ 
                 <div className="navbar-collapse">
                     <NavLink
                         className={({ isActive }) => 'nav-item nav-link ' + (isActive ? 'active' : '')}
@@ -80,12 +77,19 @@ const Navbar = () => {
                         Login
                     </NavLink>
                 </div>
-            }
+         
             {
                 auth.isLogged() &&
 
                     <div className="navbar-collapse collapse w-40 order-3 dual-collapse2 d-flex justify-content-end">
                         <ul className="navbar-nav ml-auto">
+                        
+                        <NavLink className="btn btn-primary mr" to={`/usuarios/${auth.user.usuario}`}>
+                                           Mis Datos
+                                        </NavLink>
+                        
+                    
+
 
                             <button
                                 className="nav-item nav-link btn"

@@ -23,7 +23,7 @@ const typeDefs = `
     type Mutation {
         AgregarUsuario(usuario : UsuarioInput): Usuario
         ActualizarEstadoUsuario(id : ID!, input : UsuarioInputEstado): Usuario
-        ActualizarDatosUsuario(id : ID!, input : UsuarioInputDatos): Usuario
+        ActualizarDatosUsuario(id : ID, input : UsuarioInputDatos): Usuario
         AgregarProyecto(proyecto : ProyectoInput): Proyecto
         ActualizarEstadoProyecto(id : ID!, input : ProyectoInputEstado): Proyecto
         ActualizarFaseProyecto(id : ID!, input : ProyectoInputFase): Proyecto
@@ -78,10 +78,11 @@ const typeDefs = `
     }
 
     input UsuarioInputDatos {
+     
         email: String,
         identificacion: String,
         nombreCompleto: String,
-        password: String,
+        
     }
     type Avance {
         id: ID,

@@ -29,17 +29,17 @@ export const resolvers = {
             return await Avance.find({idProyecto: args.id});
         },
        
-        Inscripciones() {
-            return Inscripcion.find()
+        async Inscripciones() {
+            return await Inscripcion.find()
         },
-        unaInscripcion(parents, args) {
-            return Inscripcion.findById(args.id)
+        async unaInscripcion(parents, args) {
+            return await Inscripcion.findById(args.id)
         },
         Avances() {
             return Avance.find();
         },
-        unAvance(parents, args) {
-            return Avance.findById(args.id)
+        async unAvance(parents, args) {
+            return await Avance.findById(args.id)
         },
         
         async Login(_,{email,password}){
@@ -56,7 +56,7 @@ export const resolvers = {
                 const token=await generarJwt(usuario.id, usuario.email)
                 return   {
                     token,
-                    usuario: `${usuario.nombreCompleto}`,
+                    usuario: `${usuario.id}`,
                     rol: `${usuario.rol}`
                 };
             }

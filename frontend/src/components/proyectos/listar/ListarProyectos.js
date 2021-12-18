@@ -42,7 +42,7 @@ import React from 'react'
                                     <tr key={proyecto.id}>
                                         <th scope="row">{index + 1}</th>
                                         <td>{proyecto.nombreProyecto} </td>
-                                        <td>{proyecto.lider} </td>
+                                        <td>{proyecto.lider.nombreCompleto} </td>
                                         <td>{proyecto.fechaInicio}</td>
                                         <td>{proyecto.fechaTerminacion}</td>                                        
                                         <td>{proyecto.estadoProyecto} </td>

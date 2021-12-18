@@ -31,8 +31,8 @@ const LoginPage = () => {
 
     return (
         <div className="login">
-            <div className="row">
-                <div className="col-md-6 login-form-1 login-container">
+        <div className="row justify-content-center align-items-center minh-100">
+        <div className="col-md-6 registro-form-1 registro-container">
                     <h3>Ingreso</h3>
                     <form onSubmit={handleSubmit(handleLogin)}>
                         <div className="form-group">
@@ -68,7 +68,7 @@ const LoginPage = () => {
                             el password es obligatorio
                         </div>}
 
-                        <div className="form-group mt-3">
+                      <center>  <div className="form-group mt-3">
                             {!loading && <input
                                 type="submit"
                                 className="btnSubmit"
@@ -79,6 +79,7 @@ const LoginPage = () => {
                                 Loading...
                             </button>}
                         </div>
+                        </center>
                     </form>
                     {error && <div className="alert alert-danger" role="alert">
                         Usuario o contraseña incorrectos
