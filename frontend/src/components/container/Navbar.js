@@ -59,6 +59,24 @@ const Navbar = () => {
                 >
                     Avances
                 </NavLink>
+                <NavLink
+                    className={({ isActive }) => 'nav-item nav-link ' + (isActive ? 'active' : '')}
+                    to="/admin"
+                >
+                    Admin
+                </NavLink>
+                <NavLink
+                    className={({ isActive }) => 'nav-item nav-link ' + (isActive ? 'active' : '')}
+                    to="/lider"
+                >
+                    Lider
+                </NavLink>
+                <NavLink
+                    className={({ isActive }) => 'nav-item nav-link ' + (isActive ? 'active' : '')}
+                    to="/estudiante"
+                >
+                    Estudiante
+                </NavLink>
             </div>
 
             <div className="navbar-collapse">
