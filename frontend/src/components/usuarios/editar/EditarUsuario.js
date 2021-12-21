@@ -11,11 +11,12 @@ const EditarUsuario = ({ userid }) => {
     const { loading, data, error } = useQuery(GET_UN_USUARIO, { variables: { id: userid } });
 
 
-    const handleUpdate = (args) => {
+    const handleUpdate = (dato) => {
         
-        const { nombreCompleto, identificacion, email} = args;
+        const { nombreCompleto, identificacion, email} = dato;
+        console.log("Datos enviados: " + nombreCompleto, identificacion, email);
 
-        console.log(nombreCompleto, identificacion, email);
+
     }
 
     return (
@@ -27,8 +28,7 @@ const EditarUsuario = ({ userid }) => {
                 <div className="form-group">
                     <input type="text" className='form-control mb-3' defaultValue={data.unUsuario.nombreCompleto} placeholder="Nombre Completo" {...register("nombreCompleto", { required: true })} />
                     <input type="text" className='form-control mb-3' defaultValue={data.unUsuario.identificacion} placeholder="Identificación" {...register("identificacion", { required: true })} />
-                    <input type="text" className='form-control mb-3' defaultValue={data.unUsuario.email} placeholder="Email" {...register("email", { required: true, pattern: /^\S+@\S+$/i })} />
-                    
+                    <input type="text" className='form-control mb-3' defaultValue={data.unUsuario.email} placeholder="Email" {...register("email", { required: true, pattern: /^\S+@\S+$/i })} />                    
                 </div>
                 <input className='btn btn-success' type="submit" />
 
