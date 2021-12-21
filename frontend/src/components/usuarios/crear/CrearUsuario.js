@@ -33,14 +33,7 @@ const CrearUsuario = () => {
         
         const { nombreCompleto,identificacion, email, password, rol } = dato;
 
-        crearUsuario({ variables: { nombreCompleto, identificacion, email, password, rol } })
-
-        /*if (data) {
-            navigate('/usuarios', {
-                replace: true
-            })
-        }*/
-
+        crearUsuario({ variables: { nombreCompleto, identificacion, email, password, rol } })      
     }
 
     return (

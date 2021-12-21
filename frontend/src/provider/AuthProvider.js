@@ -13,7 +13,7 @@ const AuthProvider = ({children}) => {
     const [user, setUser] = useState(
         JSON.parse(localStorage.getItem("user")) || null
     );
-
+    
     useEffect(() => {
         try {
             localStorage.setItem("token", JSON.stringify(token));
@@ -31,7 +31,7 @@ const AuthProvider = ({children}) => {
             setToken(token);
         },
         setUser(us) {
-            setUser(user);
+            setUser(us);
         },
         logout() {
             setToken(null);

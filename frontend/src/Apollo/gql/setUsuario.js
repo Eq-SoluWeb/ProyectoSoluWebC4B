@@ -6,14 +6,12 @@ const SET_USUARIO = gql`
                 nombreCompleto: $nombreCompleto,
                 identificacion: $identificacion,
                 email: $email,
-                password: $password,
-                rol: $rol
             }) {
                 id
                 nombreCompleto
                 identificacion
                 email
-                password
+                estado
                 rol
             }               
         }

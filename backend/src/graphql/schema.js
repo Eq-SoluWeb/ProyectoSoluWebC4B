@@ -4,7 +4,7 @@ import { resolvers } from "./resolvers";
 const typeDefs = `
     type Query {
         Usuarios: [Usuario],
-        unUsuario(id:ID): Usuario,
+        unUsuario(id:ID!): Usuario,
         Proyectos: [Proyecto],
         unProyecto(id:ID): Proyecto,
         avanceProyecto(id:ID):Avance,
@@ -77,12 +77,12 @@ const typeDefs = `
         estado: String,
     }
 
-    input UsuarioInputDatos {
-        email: String,
-        identificacion: String,
-        nombreCompleto: String,
-        password: String,
+    input UsuarioInputDatos { 
+        nombreCompleto: String, 
+        identificacion: String,   
+        email: String,                 
     }
+
     type Avance {
         id: ID,
         idProyecto: String,

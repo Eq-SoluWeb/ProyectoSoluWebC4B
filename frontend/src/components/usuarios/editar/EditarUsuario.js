@@ -1,50 +1,41 @@
-import { useMutation } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import React from 'react'
 import { useForm } from 'react-hook-form';
-import SET_USUARIO from '../../../Apollo/gql/setUsuario';
+import GET_UN_USUARIO from '../../../Apollo/gql/getUnUsuario';
 
-import '../usuarios.css';
 
-const EditarUsuario = () => {
+const EditarUsuario = ({ userid }) => {
+
     const { register, handleSubmit } = useForm();
 
-    const [crearUsuario] = useMutation(SET_USUARIO);
+    const { loading, data, error } = useQuery(GET_UN_USUARIO, { variables: { id: userid } });
 
-    const handleCreate = (data) => {
-        console.log('crear');
-        console.log(data);
 
-        const { nombreCompleto,identificacion, email, password, rol } = data;
+    const handleUpdate = (dato) => {
+        
+        const { nombreCompleto, identificacion, email} = dato;
+        console.log("Datos enviados: " + nombreCompleto, identificacion, email);
 
-        crearUsuario({ variables: { nombreCompleto, identificacion, email, password, rol } })
 
     }
 
     return (
-        <div className="registro-container">
-        <div className="row justify-content-center align-items-center minh-100">
-            <div className="col-md-6 registro-form-1 registro-container">
-                <h3>Ingresar los nuevos datos del usuario</h3> 
-        <form onSubmit={handleSubmit(handleCreate)}>
-            <div className="form-group">
-                <input type="text" className='form-control mb-3' placeholder="Nombre Completo" {...register("nombreCompleto", { required: true })} />
-                <input type="text" className='form-control mb-3' placeholder="Número de Identificación" {...register("identificacion", { required: true })} />
-                <input type="text" className='form-control mb-3' placeholder="Email" {...register("email", { required: true, pattern: /^\S+@\S+$/i })} />
-                <input type="password" className='form-control mb-3' placeholder="Password" {...register("password", { required: true })} />
-                <select className='form-control mb-3' {...register("rol", { required: true })}>
-                    <option value="Lider">Lider</option>
-                    <option value="Estudiante">Estudiante</option>
-                </select>
 
-            </div>
-            <input type="submit" />
+        <>
+            {error && <h1>error</h1>}
+            {loading && <h1>datos</h1>}
+            {data && <form onSubmit={handleSubmit(handleUpdate)}>
+                <div className="form-group">
+                    <input type="text" className='form-control mb-3' defaultValue={data.unUsuario.nombreCompleto} placeholder="Nombre Completo" {...register("nombreCompleto", { required: true })} />
+                    <input type="text" className='form-control mb-3' defaultValue={data.unUsuario.identificacion} placeholder="Identificación" {...register("identificacion", { required: true })} />
+                    <input type="text" className='form-control mb-3' defaultValue={data.unUsuario.email} placeholder="Email" {...register("email", { required: true, pattern: /^\S+@\S+$/i })} />                    
+                </div>
+                <input className='btn btn-success' type="submit" />
 
-        </form>
-        </div>
-        </div>
-        </div>
+            </form>}
+        </>
+
     )
-
 }
 
 export default EditarUsuario
