@@ -5,10 +5,6 @@ import LOGIN_USUARIO from '../../Apollo/gql/loginUsuario'
 import { useForm } from 'react-hook-form'
 import useAuth from '../../hooks/useAuth'
 import './login.css';
- 
-import { injectStyle } from "react-toastify/dist/inject-style";
-import { ToastContainer, toast } from "react-toastify";
-
 
 const LoginPage = () => {
 
@@ -22,33 +18,21 @@ const LoginPage = () => {
     useEffect(() => {
         if (data) {
             console.log('Data',data);
-            if(data.Login?.rol ){
-            auth.setToken(data.Login?.token);
-            auth.setUser({ usuario: data.Login.usuario, rol: data.Login.rol,nombreUsuario:data.Login.nombreUsuario,estado:data.Login.estado });
-            if(data.Login?.estado==='PENDIENTE'){
-            navigate('/NoAutorizado', {
-                replace: true
-            })
-        }
-           if(data.Login?.estado==='AUTORIZADO'){
+            if(data.Login.rol ){
+            auth.setToken(data.Login.token);
+            auth.setUser({ usuario: data.Login.usuario, rol: data.Login.rol });
            
-            if(data.Login?.rol==="Administrador")
-        
+           
+            if(data.Login.rol==="Administrador")
             {navigate('/usuarios', {
                 replace: true
             })}
-            if(data.Login?.rol==="Estudiante")
-            {navigate('/proyectos', {
-                replace: true
-            })}
-            if(data.Login?.rol==="Lider")
+            if(data.Login.rol==="Estudiante")
             {navigate('/proyectos', {
                 replace: true
             })}
         }
         }
-        }
-    
     }, [data, navigate, auth]);
 
     const handleLogin = (args) => {
@@ -118,4 +102,3 @@ const LoginPage = () => {
 }
 
 export default LoginPage
- 

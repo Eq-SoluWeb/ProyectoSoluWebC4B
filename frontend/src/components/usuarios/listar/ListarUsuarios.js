@@ -64,7 +64,7 @@ const ListarUsuarios = () => {
                                         </NavLink>
                                         {usuario.estado!=="AUTORIZADO" &&
                                             <button type="button" className="btn btn btn-success mr-3"  
-                                                     onClick={() => handleAprobar(usuario)}>Aceptar</button>
+                                                     onClick={() => handleAprobar(usuario)}>Autorizar</button>
                             }
                             
                              
