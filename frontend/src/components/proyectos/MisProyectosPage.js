@@ -1,4 +1,4 @@
-import {useEffect} from 'react'
+import React from 'react'
 import { NavLink, useNavigate, useParams } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
 import CrearProyecto from './crear/CrearProyecto';
@@ -7,24 +7,17 @@ import ListarProyectos from './listar/ListarProyectos';
 
 import './proyectos.css';
 
-const ProyectosPage = () => {
+const MisProyectosPage = () => {
     const auth = useAuth();
     console.log('auth=', auth);
     const navigate = useNavigate();
-    if (!auth?.isLogged) {
+    if (!auth.isLogged()) {
         navigate('/', {
             replace: true
         })
     }
     const { action } = useParams();
 
-    useEffect(() => {
-        if(!auth){
-           navigate('/',{
-               replace:true
-           })
-        }
-    }, [auth])
 
 
     return (
@@ -34,26 +27,24 @@ const ProyectosPage = () => {
                     <div className="col-lg-12">
                         <div className="card card-primary card-outline">
                             <div className="card-header flex">
-                                <h5 className="m-0">Proyectos</h5>
+                                <h5 className="m-0">Mis Proyectos</h5>
                                 {
-                                    auth.Logged &&
-                                        auth.user?.rol === "Lider" &&
-                                        <NavLink className="btn btn-primary mr-3" to={`/Proyectos/crear`}>
-                                            Crear Proyecto
-                                        </NavLink>
-
+                                    auth.user?.rol === "Lider" &&
+                                    <NavLink className="btn btn-primary mr-3" to={`/Proyectos/crear`}>
+                                        Crear Proyecto
+                                    </NavLink>
                                 }
-                            </div>
-                            <div className="card-body">
-                                {action === '' || action === undefined ? <ListarProyectos /> : (action === 'crear') ? <CrearProyecto /> : <EditarProyecto />}
+
+                                <div className="card-body">
+                                    {action === '' || action === undefined ? <ListarProyectos /> : (action === 'crear') ? <CrearProyecto /> : <EditarProyecto />}
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-           
         </section>
     )
 }
 
-export default ProyectosPage
+export default MisProyectosPage

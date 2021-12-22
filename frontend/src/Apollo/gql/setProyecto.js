@@ -20,7 +20,7 @@ const SET_PROYECTO = gql`
                 lider{
                     id
                     nombreCompleto
-                    identiicacion
+                    identificacion
                 }
             }               
         }

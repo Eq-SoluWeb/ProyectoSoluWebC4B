@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "loose": "true",
+
+   "loose": true ,
   "scripts": {
     "start": "babel-node src/index.js",
     "dev": "nodemon src/index.js --exec babel-node",

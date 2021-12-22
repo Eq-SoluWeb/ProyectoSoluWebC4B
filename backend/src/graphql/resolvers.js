@@ -16,29 +16,29 @@ export const resolvers = {
             //   throw new Error("No Autenticado");
             //}
         },
-        async unUsuario(_, {id}) {
+        async UnUsuario(_, {id}) {
             return await Usuario.findById(id);
         },
-        Proyectos() {
-            return Proyecto.find().populate('lider','nombreCompleto');
+        async Proyectos() {
+            return await Proyecto.find().populate('lider','nombreCompleto');
         },
-        unProyecto(parents, args) {
-            return Proyecto.findById(args.id)
+        async UnProyecto(parents, args) {
+            return await Proyecto.findById(args.id).populate('lider','nombreCompleto')
         },
-        async avanceProyecto(parents, args) {         
+        async AvanceProyecto(parents, args) {         
             return await Avance.find({idProyecto: args.id});
         },
        
         async Inscripciones() {
             return await Inscripcion.find()
         },
-        async unaInscripcion(parents, args) {
+        async UnaInscripcion(parents, args) {
             return await Inscripcion.findById(args.id)
         },
-        Avances() {
-            return Avance.find();
+        async Avances() {
+            return await Avance.find();
         },
-        async unAvance(parents, args) {
+        async UnAvance(parents, args) {
             return await Avance.findById(args.id)
         },
         
@@ -51,13 +51,15 @@ export const resolvers = {
              const validarPassword = bcrypt.compareSync(password, usuario.password);
             
              if(!validarPassword){
-                throw new Error("Usuario o contraseña incorrectos");
+              throw new Error("Usuario o contraseña incorrectos");
             }else {
-                const token=await generarJwt(usuario.id, usuario.email)
+                const token=await generarJwt(usuario.id, usuario.email,usuario.nombreCompleto)
                 return   {
                     token,
                     usuario: `${usuario.id}`,
-                    rol: `${usuario.rol}`
+                    rol: `${usuario.rol}`,
+                    nombreUsuario: `${usuario.nombreCompleto}`,
+                    estado: `${usuario.estado}`
                 };
             }
         },
@@ -66,8 +68,8 @@ export const resolvers = {
            return await Usuario.find({rol:'Estudiante'});
        },
 
-       async MisProyectos(_,{usuario}){
-        return await Proyecto.find({lider:usuario}).populate('lider',"nombreCompleto");;
+       async MisProyectos(_,{idUsuario}){
+        return await Proyecto.find({lider:idUsuario}).populate('lider',"nombreCompleto");;
     }
         
     },
@@ -103,14 +105,21 @@ export const resolvers = {
             return await nProyecto.save();
         },
 
-        async ActualizarEstadoProyecto(_, { id, input }) {
-            return await Proyecto.findByIdAndUpdate(id, input, { new: true });
+        async ActivarEstadoProyecto(_, { id } ) {
+            return await Proyecto.findByIdAndUpdate(id ,{ estadoProyecto: 'ACTIVO' } ,{ new: true } );
         },
-
+        async InactivarEstadoProyecto(_, { id } ) {
+            return await Proyecto.findByIdAndUpdate(id ,{ estadoProyecto: 'INACTIVO' } ,{ new: true } );
+        },
         async ActualizarFaseProyecto(_, { id, input }) {
             return await Proyecto.findByIdAndUpdate(id, input, { new: true });
         },
-
+        async FaseIniciarProyecto(_, { id } ) {
+            return await Proyecto.findByIdAndUpdate(id ,{ faseProyecto: 'INICIADO' } ,{ new: true } );
+        },
+        async FaseDesIniciarProyecto(_, { id } ) {
+            return await Proyecto.findByIdAndUpdate(id ,{ faseProyecto: 'INACTIVADO' } ,{ new: true } );
+        },
         async ActualizarDatosProyecto(_, { id, input }) {
             return await Proyecto.findByIdAndUpdate(id, input, { new: true });
         },
@@ -150,9 +159,10 @@ export const resolvers = {
 
         async AgregarSolicitud(_,{args}) {
             const nSolicitud= new Solicitud({
-                proyecto:args.proyecto,
-                usuario:args.usuario
+                proyecto:args.proyecto.id,
+                usuario:args.usuario.id
             });
+            console.log("AGREGARSOLICITUD=",args)
             return await nSolicitud.save();
         }
     }

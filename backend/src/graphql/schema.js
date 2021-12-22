@@ -4,28 +4,38 @@ import { resolvers } from "./resolvers";
 const typeDefs = `
     type Query {
         Usuarios: [Usuario],
+<<<<<<< HEAD
         unUsuario(id:ID!): Usuario,
+=======
+        UnUsuario(id:ID): Usuario,
+>>>>>>> Feature_JR
         Proyectos: [Proyecto],
-        unProyecto(id:ID): Proyecto,
-        avanceProyecto(id:ID):Avance,
+        UnProyecto(id:ID): Proyecto,
+        AvanceProyecto(id:ID):Avance,
         Inscripciones: [Inscripcion],
-        unaInscripcion(id:ID): Inscripcion,
+        UnaInscripcion(id:ID): Inscripcion,
         Avances: [Avance],
-        unAvance(id:ID): Avance,
+        UnAvance(id:ID): Avance,
         Login(email:String!,password:String!):Auth,
         UsuariosEstudiantes: [Usuario],
         SolicitudesPendientes:[Solicitud],
-        MisProyectos(idUsuario:ID!):[Proyecto],
+        MisProyectos(idUsuario:ID):[Proyecto],
         Solicitud:[Solicitud], 
 
     }
 
     type Mutation {
         AgregarUsuario(usuario : UsuarioInput): Usuario
+<<<<<<< HEAD
         ActualizarEstadoUsuario(id : ID!, input : UsuarioInputEstado): Usuario
         ActualizarDatosUsuario(id : ID!, input : UsuarioInputDatos): Usuario
+=======
+        ActualizarEstadoUsuario(id : ID, input : UsuarioInputEstado): Usuario
+        ActualizarDatosUsuario(id : ID, input : UsuarioInputDatos): Usuario
+>>>>>>> Feature_JR
         AgregarProyecto(proyecto : ProyectoInput): Proyecto
-        ActualizarEstadoProyecto(id : ID!, input : ProyectoInputEstado): Proyecto
+        ActivarEstadoProyecto(id : ID): Proyecto
+        InactivarEstadoProyecto(id : ID): Proyecto
         ActualizarFaseProyecto(id : ID!, input : ProyectoInputFase): Proyecto
         ActualizarDatosProyecto(id : ID!, input : ProyectoInputDatos): Proyecto
         AgregarInscripcion(inscripcion : InscripcionInput): Inscripcion
@@ -33,7 +43,9 @@ const typeDefs = `
         AgregarAvance(avance : AvanceInput): Avance
         ActualizarDatosAvance(id : ID!, input : AvanceInputDatos): Avance
         ActualizarObservacionAvance(id : ID!, input : AvanceInputObservacion): Avance
-        AgregarSolicitud(solicitud:SolicitudInput):Solicitud
+        AgregarSolicitud(solicitud:SolicitudInput):Solicitud,
+        FaseIniciarProyecto(id : ID): Proyecto,
+        FaseDesIniciarProyecto(id : ID): Proyecto
         
     } 
     
@@ -41,6 +53,8 @@ const typeDefs = `
         token: String,
         usuario: String,
         rol: String,
+        nombreUsuario:String,
+        estado:String
     }
 
     type Usuario {
@@ -77,10 +91,18 @@ const typeDefs = `
         estado: String,
     }
 
+<<<<<<< HEAD
     input UsuarioInputDatos { 
         nombreCompleto: String, 
         identificacion: String,   
         email: String,                 
+=======
+    input UsuarioInputDatos {
+        nombreCompleto: String,
+        identificacion: String,
+        email: String,
+         
+>>>>>>> Feature_JR
     }
 
     type Avance {
@@ -94,8 +116,8 @@ const typeDefs = `
     type Proyecto {
         id: ID,
         nombreProyecto : String,
-        objetivosGenerales : [String],
-        objetivosEspecificos : [String],
+        objetivosGenerales : String,
+        objetivosEspecificos : String,
         presupuesto : Int,
         fechaInicio : String,
         fechaTerminacion : String,
@@ -108,8 +130,8 @@ const typeDefs = `
     type unProyecto {
         id: ID,
         nombreProyecto : String,
-        objetivosGenerales : [String],
-        objetivosEspecificos : [String],
+        objetivosGenerales : String,
+        objetivosEspecificos : String,
         presupuesto : Int,
         fechaInicio : String,
         fechaTerminacion : String,
@@ -122,8 +144,8 @@ const typeDefs = `
     type AvanceProyecto {
         id: ID,
         nombreProyecto : String,
-        objetivosGenerales : [String],
-        objetivosEspecificos : [String],
+        objetivosGenerales : String,
+        objetivosEspecificos : String,
         presupuesto : Int,
         fechaInicio : String,
         fechaTerminacion : String,
@@ -137,8 +159,8 @@ const typeDefs = `
     input ProyectoInput {
         id: ID,
         nombreProyecto : String,
-        objetivosGenerales : [String],
-        objetivosEspecificos : [String],
+        objetivosGenerales : String,
+        objetivosEspecificos : String,
         presupuesto : Int,
         fechaInicio : String,
         fechaTerminacion : String,
@@ -159,8 +181,8 @@ const typeDefs = `
 
     input ProyectoInputDatos {
         nombreProyecto : String,
-        objetivosGenerales : [String],
-        objetivosEspecificos : [String],
+        objetivosGenerales : String,
+        objetivosEspecificos : String,
         presupuesto : Int,
         fechaInicio : String,
         fechaTerminacion : String,
