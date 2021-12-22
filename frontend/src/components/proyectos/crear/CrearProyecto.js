@@ -1,9 +1,19 @@
 import { useMutation } from '@apollo/client';
 import React from 'react'
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import SET_PROYECTO from '../../../Apollo/gql/setProyecto';
+import useAuth from '../../../hooks/useAuth';
 
 const CrearProyecto = () => {
+    const auth=useAuth();
+    console.log(auth);
+    const navigate=useNavigate();
+    if(!auth.isLogged()){
+        navigate('/', {
+            replace: true
+        }) 
+    }
 
     const { register, handleSubmit } = useForm();
 
@@ -28,11 +38,8 @@ const CrearProyecto = () => {
                 <input type="text" className='form-control mb-3' placeholder="Objetivos Generales" {...register("objetivosGenerales", { required: true })} />
                 <input type="text" className='form-control mb-3' placeholder="Objetivos Específicos" {...register("objetivosEspecificos", { required: true })} />
                 <input type="text" className='form-control mb-3' placeholder="Presupuesto" {...register("Presupuesto", { required: true })} />
-                <input type="text" className='form-control mb-3' placeholder="Lider" {...register("lider", { required: true })} />
-                <select className='form-control mb-3' {...register("rol", { required: true })}>
-                    <option value="61ad67b3530c5bd0571064b1">Lider</option>
-                    <option value="61ad680d530c5bd0571064b7">Estudiante</option>
-                </select>
+                <input type="text" className='form-control mb-3' defaultValue={auth.user.usuario} placeholder="Lider" {...register("lider", { required: true })} />
+                 
             </div>
             <input type="submit" />
 

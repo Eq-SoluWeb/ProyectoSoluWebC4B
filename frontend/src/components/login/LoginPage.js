@@ -13,14 +13,25 @@ const LoginPage = () => {
     const navigate = useNavigate();
 
     const [loginUsuario, { data, loading, error }] = useLazyQuery(LOGIN_USUARIO);
-
+    console.log(loginUsuario)
+ 
     useEffect(() => {
         if (data) {
+            console.log('Data',data);
+            if(data.Login.rol ){
             auth.setToken(data.Login.token);
             auth.setUser({ usuario: data.Login.usuario, rol: data.Login.rol });
-            navigate('/usuarios', {
+           
+           
+            if(data.Login.rol==="Administrador")
+            {navigate('/usuarios', {
                 replace: true
-            })
+            })}
+            if(data.Login.rol==="Estudiante")
+            {navigate('/proyectos', {
+                replace: true
+            })}
+        }
         }
     }, [data, navigate, auth]);
 
@@ -50,7 +61,7 @@ const LoginPage = () => {
                         </div>}
 
                         {errors.email?.type === "pattern" && <div className="alert alert-danger mt-2" role="alert">
-                            el correo no tiene el formto correcto
+                            el correo no tiene el formato correcto debe contenet @ y un dominio
                         </div>}
 
 
@@ -91,3 +102,4 @@ const LoginPage = () => {
 }
 
 export default LoginPage
+ 

@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client'
 
 const EDITAR_PROYECTO = gql`
-        mutation editProyecto($nombreProyecto: String!, $fechaI: String!, $fechaT: String!, $objetivosG: [String], $objetivosE: [String], $presupuesto: Int!, $lider: String! ){            
-            ActualizarDatosProyecto(id: $ID, input: {
+        mutation editProyecto($id:ID,$nombreProyecto: String!, $fechaI: String!, $fechaT: String!, $objetivosG: [String], $objetivosE: [String], $presupuesto: Int!, $lider: String! ){            
+            ActualizarDatosProyecto(id: $id, input: {
                 nombreProyecto: $nombreProyecto,
                 fechaInicio: $fechaI,
                 fechaTerminacion: $FechaT,

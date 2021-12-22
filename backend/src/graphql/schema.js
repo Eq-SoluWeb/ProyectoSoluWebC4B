@@ -4,28 +4,29 @@ import { resolvers } from "./resolvers";
 const typeDefs = `
     type Query {
         Usuarios: [Usuario],
-        unUsuario(id:ID): Usuario,
+        UnUsuario(id:ID): Usuario,
         Proyectos: [Proyecto],
-        unProyecto(id:ID): Proyecto,
-        avanceProyecto(id:ID):Avance,
+        UnProyecto(id:ID): Proyecto,
+        AvanceProyecto(id:ID):Avance,
         Inscripciones: [Inscripcion],
-        unaInscripcion(id:ID): Inscripcion,
+        UnaInscripcion(id:ID): Inscripcion,
         Avances: [Avance],
-        unAvance(id:ID): Avance,
+        UnAvance(id:ID): Avance,
         Login(email:String!,password:String!):Auth,
         UsuariosEstudiantes: [Usuario],
         SolicitudesPendientes:[Solicitud],
-        MisProyectos(idUsuario:ID!):[Proyecto],
+        MisProyectos(idUsuario:ID):[Proyecto],
         Solicitud:[Solicitud], 
 
     }
 
     type Mutation {
         AgregarUsuario(usuario : UsuarioInput): Usuario
-        ActualizarEstadoUsuario(id : ID!, input : UsuarioInputEstado): Usuario
+        ActualizarEstadoUsuario(id : ID, input : UsuarioInputEstado): Usuario
         ActualizarDatosUsuario(id : ID, input : UsuarioInputDatos): Usuario
         AgregarProyecto(proyecto : ProyectoInput): Proyecto
-        ActualizarEstadoProyecto(id : ID!, input : ProyectoInputEstado): Proyecto
+        ActivarEstadoProyecto(id : ID): Proyecto
+        InactivarEstadoProyecto(id : ID): Proyecto
         ActualizarFaseProyecto(id : ID!, input : ProyectoInputFase): Proyecto
         ActualizarDatosProyecto(id : ID!, input : ProyectoInputDatos): Proyecto
         AgregarInscripcion(inscripcion : InscripcionInput): Inscripcion
@@ -33,7 +34,9 @@ const typeDefs = `
         AgregarAvance(avance : AvanceInput): Avance
         ActualizarDatosAvance(id : ID!, input : AvanceInputDatos): Avance
         ActualizarObservacionAvance(id : ID!, input : AvanceInputObservacion): Avance
-        AgregarSolicitud(solicitud:SolicitudInput):Solicitud
+        AgregarSolicitud(solicitud:SolicitudInput):Solicitud,
+        FaseIniciarProyecto(id : ID): Proyecto,
+        FaseDesIniciarProyecto(id : ID): Proyecto
         
     } 
     
@@ -78,11 +81,10 @@ const typeDefs = `
     }
 
     input UsuarioInputDatos {
-     
-        email: String,
-        identificacion: String,
         nombreCompleto: String,
-        
+        identificacion: String,
+        email: String,
+         
     }
     type Avance {
         id: ID,

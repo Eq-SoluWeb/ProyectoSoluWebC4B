@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client'
 
 const GET_UN_USUARIO = gql`
-        query  UnUsuario($id:ID){            
-            unUsuario(id:$id) 
+        query  unUsuario($id:ID){            
+            UnUsuario(id:$id) 
             {
                 id
                 nombreCompleto

@@ -16,31 +16,41 @@ const AuthProvider = ({children}) => {
     const [rol, setRol] = useState(
         JSON.parse(localStorage.getItem("rol")) || null
     );
+    const [nombreUsuario, setNombreUsuario] = useState(
+        JSON.parse(localStorage.getItem("nombreUsuario")) || null
+    );
+
 
     useEffect(() => {
         try {
             localStorage.setItem("token", JSON.stringify(token));
             localStorage.setItem("user", JSON.stringify(user));
             localStorage.setItem("rol", JSON.stringify(rol));
+            localStorage.setItem("nombreUsuario", JSON.stringify(nombreUsuario));
         } catch (error) {
             localStorage.removeItem("token");
             localStorage.removeItem("user");
             localStorage.removeItem("rol");
+            localStorage.removeItem("nombreUsuario");
         }
-    }, [user, token, rol]);
+    }, [user, token, rol,nombreUsuario]);
 
     const contextValue = {
         user,
         token,
         rol,
+        nombreUsuario,
         setToken(token) {
             setToken(token);
         },
-        setUser(us) {
-            setUser(us);
+        setUser(usr) {
+            setUser(usr);
         },
         setRol(rl) {
             setRol(rl);
+        },
+        setNombreUsuario(nom) {
+            setNombreUsuario(nom);
         },
         logout() {
             setToken(null);
@@ -49,6 +59,7 @@ const AuthProvider = ({children}) => {
             localStorage.removeItem("token");
             localStorage.removeItem("user");
             localStorage.removeItem("rol");
+            localStorage.removeItem("nombreUsuario");
         },
         isLogged() {
             return !!user;

@@ -1,18 +1,33 @@
-import { useQuery } from '@apollo/client';
-import React from 'react'
+import { useQuery,useMutation } from '@apollo/client';
+import { useEffect, useState } from "react";
 import { NavLink } from 'react-router-dom'
+import ACTUALIZAR_ESTADO_USUARIO from '../../../Apollo/gql/ActualizarEstadoUsuario';
+
 import GET_USUARIOS from '../../../Apollo/gql/getUsuarios';
+
+import useAuth from '../../../hooks/useAuth';
+ 
 
 import '../usuarios.css';
 
 const ListarUsuarios = () => {
-
+    const [nuevoEstado,setEstado]=useState("AUTORIZADO");
+    const auth=useAuth();
+         const {rol,usuario}=auth;
     const { loading, data, error } = useQuery(GET_USUARIOS);
+    
+    
+        const [updateEstadoUsuario] = useMutation(ACTUALIZAR_ESTADO_USUARIO);
+        const handleAprobar =async ({id}) => {
+         
+        console.log('args vale=',id);
+         setEstado('AUTORIZADO') ;
+         await updateEstadoUsuario({ variables: {  id:id,input:{
+            estado:nuevoEstado,
+             } }});
+            
 
-    const handleDelete = (id) => {
-        console.log('delete');
     }
-
     return (
         <>
             {loading && <p>Cargando ...</p>}
@@ -40,12 +55,21 @@ const ListarUsuarios = () => {
                                     <td>{usuario.email}</td>
                                     <td>{usuario.rol} </td>
                                     <td>{usuario.estado} </td>
+                                   
                                     <td>
+                                       
+                                      
                                         <NavLink className="btn btn-primary mr" to={`/usuarios/${usuario.id}`}>
                                             Editar
                                         </NavLink>
-                                        <button type="button" className="btn btn btn-danger mr-3" data="data de pruebas" onClick={() => handleDelete(usuario.id)}>Eliminar</button>
+                                        {usuario.estado!=="AUTORIZADO" &&
+                                            <button type="button" className="btn btn btn-success mr-3"  
+                                                     onClick={() => handleAprobar(usuario)}>Aceptar</button>
+                            }
+                            
+                             
                                     </td>
+                            
                                 </tr>
                             ))
                         }
