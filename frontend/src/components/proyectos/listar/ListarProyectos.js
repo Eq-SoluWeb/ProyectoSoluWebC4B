@@ -103,7 +103,7 @@ const ListarProyectos = () => {
                                         <th scope="row">{index + 1}</th>
                                         <td>{proyecto.nombreProyecto} </td>
                                         <td>{proyecto.lider.nombreCompleto} </td>
-                                        <td className="data-date-format='DD MMMM YYYY'">{proyecto.fechaInicio}</td>
+                                        <td className="data-date-format='DD MM YYYY'">{proyecto.fechaInicio}</td>
                                         <td>{proyecto.fechaTerminacion}</td>
                                         <td>{proyecto.estadoProyecto} </td>
                                         <td>{proyecto.faseProyecto} </td>
@@ -115,6 +115,7 @@ const ListarProyectos = () => {
                                                 </NavLink>
                                         }
                                                 {proyecto.estadoProyecto === 'INACTIVO' &&
+                                                auth.user?.rol==="Lider"&&
                                                     <button type="button" className="btn btn btn-warning mr-3 btn-sm" data="data de pruebas"
                                                         onClick={() => handleActivarProyecto(proyecto)}>Activar</button>
 
@@ -123,9 +124,11 @@ const ListarProyectos = () => {
                                                     auth.user?.rol==="Estudiante" &&
                                                     <button type="button" className="btn btn btn-secondary mr-3 btn-sm" data="data de pruebas"
                                                         onClick={() => handleCreateSolicitud(proyecto)}>Solicitar</button>
+                                                    
 
                                                 }
                                                 {proyecto.estadoProyecto === 'ACTIVO' &&
+                                                 auth.user?.rol==="Lider"&&
                                                     <button type="button" className="btn btn btn-danger mr-3 btn-sm" data="data de pruebas"
                                                         onClick={() => handleInactivarProyecto(proyecto)}>Inactivar</button>
 

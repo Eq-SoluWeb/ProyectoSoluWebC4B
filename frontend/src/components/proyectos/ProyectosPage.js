@@ -51,6 +51,7 @@ const ProyectosPage = () => {
                     </div>
                 </div>
             </div>
+           
         </section>
     )
 }

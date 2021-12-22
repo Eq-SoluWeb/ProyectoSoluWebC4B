@@ -3,11 +3,15 @@ import {useEffect,useState} from 'react'
 import { useForm } from 'react-hook-form';
 import { ToastContainer, toast } from 'react-toastify';
 import { Navigate, useNavigate, useParams } from 'react-router-dom'
-
+ 
+ 
 import EDITAR_USUARIO from '../../../Apollo/gql/editarUsuario';
  
 import GET_UN_USUARIO from '../../../Apollo/gql/getUnUsuario';
 import useAuth from '../../../hooks/useAuth';
+ 
+import AlertaSweet from '../../container/AlertaSweet';
+import { Container } from 'react-bootstrap';
  
 
 
@@ -18,7 +22,10 @@ const EditarUsuario= ( ) => {
     const navigate = useNavigate();
   
        const id=parametros.action;
- 
+     if(!auth?.Logged)
+     navigate('/', {
+        replace: true
+    })
 
     // la destructuracion funciona de derecha a izquierda
     const { loading,data,error } = useQuery(GET_UN_USUARIO, { variables: { id:  id } });
@@ -26,7 +33,11 @@ const EditarUsuario= ( ) => {
     console.log('data es:',data);
     
     
-    const [updateUsuario] = useMutation(EDITAR_USUARIO);
+    const [updateUsuario] = useMutation(EDITAR_USUARIO, {
+        refetchQueries: [{
+            query: GET_UN_USUARIO
+        }]
+    });
    
     const { register, handleSubmit } = useForm();
  
@@ -36,36 +47,34 @@ const EditarUsuario= ( ) => {
             nombreCompleto:nombreCompleto,
             identificacion:identificacion,
             email:email} }});
-            
+            <AlertaSweet />
+           
+         
 
     }
     console.log('updateUsuario',updateUsuario)
    // const[nombreCompleto]=useState(nombreCompleto);
-    useEffect(() => {
-        if (updateUsuario.executeOptions) {
-           console.log('updateUsuario',updateUsuario)
-            navigate('/usuarios', {
-                replace: true
-            })
-        }
-    }, )
+   
+
+
+   
     return (
 
-        <>
+        <Container>
             {/* {data && <h1>datos</h1>} */}
             {error && <h1>error</h1>}
             {loading && <h1>datos</h1>}
             {data && <form onSubmit={handleSubmit(handleUpdate)}>
                 <div className="form-group">
-                    <input type="text" className='form-control mb-3' defaultValue={data.unUsuario.nombreCompleto}    placeholder="Nombre" {...register("nombreCompleto", { required: true })} />
-                    <input type="text" className='form-control mb-3' defaultValue={data.unUsuario.identificacion} placeholder="Identificacion" {...register("identificacion", { required: true })} />
-                    <input type="text" className='form-control mb-3' defaultValue={data.unUsuario.email} placeholder="Email" {...register("email", { required: true, pattern: /^\S+@\S+$/i })} />
+                    <input type="text" className='form-control mb-3' defaultValue={data.UnUsuario.nombreCompleto}    placeholder="Nombre" {...register("nombreCompleto", { required: true })} />
+                    <input type="text" className='form-control mb-3' defaultValue={data.UnUsuario.identificacion} placeholder="Identificacion" {...register("identificacion", { required: true })} />
+                    <input type="text" className='form-control mb-3' defaultValue={data.UnUsuario.email} placeholder="Email" {...register("email", { required: true, pattern: /^\S+@\S+$/i })} />
                     
                 </div>
                 <input className='btn btn-success' type="submit" />
 
             </form>}
-        </>
+        </Container>
 
     )
 }

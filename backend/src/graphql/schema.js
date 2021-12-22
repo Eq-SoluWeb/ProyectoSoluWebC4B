@@ -44,6 +44,8 @@ const typeDefs = `
         token: String,
         usuario: String,
         rol: String,
+        nombreUsuario:String,
+        estado:String
     }
 
     type Usuario {
@@ -97,8 +99,8 @@ const typeDefs = `
     type Proyecto {
         id: ID,
         nombreProyecto : String,
-        objetivosGenerales : [String],
-        objetivosEspecificos : [String],
+        objetivosGenerales : String,
+        objetivosEspecificos : String,
         presupuesto : Int,
         fechaInicio : String,
         fechaTerminacion : String,
@@ -111,8 +113,8 @@ const typeDefs = `
     type unProyecto {
         id: ID,
         nombreProyecto : String,
-        objetivosGenerales : [String],
-        objetivosEspecificos : [String],
+        objetivosGenerales : String,
+        objetivosEspecificos : String,
         presupuesto : Int,
         fechaInicio : String,
         fechaTerminacion : String,
@@ -125,8 +127,8 @@ const typeDefs = `
     type AvanceProyecto {
         id: ID,
         nombreProyecto : String,
-        objetivosGenerales : [String],
-        objetivosEspecificos : [String],
+        objetivosGenerales : String,
+        objetivosEspecificos : String,
         presupuesto : Int,
         fechaInicio : String,
         fechaTerminacion : String,
@@ -140,8 +142,8 @@ const typeDefs = `
     input ProyectoInput {
         id: ID,
         nombreProyecto : String,
-        objetivosGenerales : [String],
-        objetivosEspecificos : [String],
+        objetivosGenerales : String,
+        objetivosEspecificos : String,
         presupuesto : Int,
         fechaInicio : String,
         fechaTerminacion : String,
@@ -162,8 +164,8 @@ const typeDefs = `
 
     input ProyectoInputDatos {
         nombreProyecto : String,
-        objetivosGenerales : [String],
-        objetivosEspecificos : [String],
+        objetivosGenerales : String,
+        objetivosEspecificos : String,
         presupuesto : Int,
         fechaInicio : String,
         fechaTerminacion : String,

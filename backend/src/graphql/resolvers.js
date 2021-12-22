@@ -23,7 +23,7 @@ export const resolvers = {
             return await Proyecto.find().populate('lider','nombreCompleto');
         },
         async UnProyecto(parents, args) {
-            return await Proyecto.findById(args.id)
+            return await Proyecto.findById(args.id).populate('lider','nombreCompleto')
         },
         async AvanceProyecto(parents, args) {         
             return await Avance.find({idProyecto: args.id});
@@ -58,7 +58,8 @@ export const resolvers = {
                     token,
                     usuario: `${usuario.id}`,
                     rol: `${usuario.rol}`,
-                    nombreUsuario: `${usuario.nombreCompleto}`
+                    nombreUsuario: `${usuario.nombreCompleto}`,
+                    estado: `${usuario.estado}`
                 };
             }
         },
